@@ -61,3 +61,4 @@ export const ToastNotification = ({ message, type = 'success', onClose }) => {
     </div>
   );
 };
+

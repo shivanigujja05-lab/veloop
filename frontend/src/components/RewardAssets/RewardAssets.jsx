@@ -316,3 +316,4 @@ export const RewardAssets = ({ rewards, onRefresh, onShowToast }) => {
     </section>
   );
 };
+

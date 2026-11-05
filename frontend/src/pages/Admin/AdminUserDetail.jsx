@@ -427,3 +427,4 @@ export const AdminUserDetail = ({ userId, onClose, onUserUpdated }) => {
     </div>
   );
 };
+

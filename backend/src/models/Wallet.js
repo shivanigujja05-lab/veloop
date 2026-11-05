@@ -53,3 +53,4 @@ const walletSchema = new mongoose.Schema(
 );
 
 export default mongoose.model('Wallet', walletSchema);
+

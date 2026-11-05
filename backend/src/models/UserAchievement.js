@@ -49,3 +49,4 @@ const userAchievementSchema = new mongoose.Schema(
 userAchievementSchema.index({ user: 1, achievementId: 1 }, { unique: true });
 
 export default mongoose.model('UserAchievement', userAchievementSchema);
+

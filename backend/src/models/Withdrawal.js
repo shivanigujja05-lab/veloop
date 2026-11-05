@@ -71,3 +71,4 @@ const withdrawalSchema = new mongoose.Schema(
 );
 
 export default mongoose.model('Withdrawal', withdrawalSchema);
+

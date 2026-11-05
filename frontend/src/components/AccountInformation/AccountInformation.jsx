@@ -181,3 +181,4 @@ export const AccountInformation = ({ profile, levelProgress, onShowToast }) => {
     </section>
   );
 };
+

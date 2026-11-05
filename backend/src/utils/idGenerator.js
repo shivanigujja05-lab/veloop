@@ -31,3 +31,4 @@ export const generateReferralId = () => {
 export const generateAuditLogId = () => {
   return `AUD_${Date.now()}_${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
 };
+

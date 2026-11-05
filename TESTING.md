@@ -41,3 +41,4 @@ This document outlines the test cases and expected outcomes to verify compliance
 | **ADM-05: Payout Approval** | Open `/admin/withdrawals`. Find pending request and click Approve. | Status becomes `APPROVED`, frozen reserved VEs are permanently deducted, and user's Total Amount Withdrawn increases. | PASSED |
 | **ADM-06: Payout Rejection & Refund** | Find pending request, click Reject, enter reason "Invalid IFSC". | Status becomes `REJECTED`, rejection reason is recorded, and frozen VEs are refunded back to the user's available wallet. | PASSED |
 | **ADM-07: Audit Trail** | Open `/admin/audit-logs`. | Every balance adjustment, withdrawal approval, and status change is displayed chronologically with full details. | PASSED |
+

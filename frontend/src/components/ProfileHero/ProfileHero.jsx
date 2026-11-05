@@ -145,3 +145,4 @@ export const ProfileHero = ({ profile, levelProgress, onProfileUpdated, onShowTo
     </div>
   );
 };
+

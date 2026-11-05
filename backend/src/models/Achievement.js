@@ -63,3 +63,4 @@ const achievementSchema = new mongoose.Schema(
 );
 
 export default mongoose.model('Achievement', achievementSchema);
+

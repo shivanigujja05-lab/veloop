@@ -34,3 +34,4 @@ export const protect = async (req, res, next) => {
     return errorResponse(res, 401, 'Invalid authentication token.');
   }
 };
+

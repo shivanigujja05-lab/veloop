@@ -168,3 +168,4 @@ export const checkAndUpdateAchievements = async (userObjectId, userId, wallet) =
     console.error('Error checking achievements:', err.message);
   }
 };
+

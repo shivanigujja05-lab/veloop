@@ -598,3 +598,4 @@ export const getAdminReferrals = async (req, res, next) => {
     next(error);
   }
 };
+

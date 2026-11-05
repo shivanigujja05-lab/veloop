@@ -132,3 +132,4 @@ To guarantee optimal query performance under high load, the following compound a
 | `withdrawals` | `{ user: 1, status: 1 }`, `{ status: 1 }` | Fast aggregation of pending and approved payouts. |
 | `userachievements` | `{ user: 1, achievementId: 1 }` (Unique compound) | Prevents duplicate user achievement records. |
 | `adminauditlogs` | `{ action: 1, createdAt: -1 }`, `{ targetId: 1 }` | High-speed compliance audit lookups. |
+

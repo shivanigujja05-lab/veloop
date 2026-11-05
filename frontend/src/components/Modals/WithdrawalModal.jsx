@@ -291,3 +291,4 @@ export const WithdrawalModal = ({ availableVes, onClose, onSuccess }) => {
     </div>
   );
 };
+

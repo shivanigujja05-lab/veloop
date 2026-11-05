@@ -205,3 +205,4 @@ All admin endpoints require `protectAdmin` middleware verification.
 | `PUT` | `/api/admin/achievements/:id` | Update achievement requirement and rewards. |
 | `GET` | `/api/admin/referrals` | Inspect referral network connections. |
 | `GET` | `/api/admin/audit-logs` | Retrieve chronological security audit trail. |
+

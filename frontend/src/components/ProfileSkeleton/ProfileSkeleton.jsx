@@ -55,3 +55,4 @@ export const ProfileSkeleton = () => {
     </div>
   );
 };
+

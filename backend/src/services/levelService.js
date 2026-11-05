@@ -60,3 +60,4 @@ export const calculateUserLevel = async (currentXp = 0) => {
     badgeColor: currentLevelObj.badgeColor,
   };
 };
+

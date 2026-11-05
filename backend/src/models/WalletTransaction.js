@@ -88,3 +88,4 @@ const walletTransactionSchema = new mongoose.Schema(
 );
 
 export default mongoose.model('WalletTransaction', walletTransactionSchema);
+

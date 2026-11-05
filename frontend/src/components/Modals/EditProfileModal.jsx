@@ -175,3 +175,4 @@ export const EditProfileModal = ({ profile, onClose, onSuccess }) => {
     </div>
   );
 };
+

@@ -71,3 +71,4 @@ const activityLogSchema = new mongoose.Schema(
 );
 
 export default mongoose.model('ActivityLog', activityLogSchema);
+

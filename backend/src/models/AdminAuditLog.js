@@ -51,3 +51,4 @@ const adminAuditLogSchema = new mongoose.Schema(
 );
 
 export default mongoose.model('AdminAuditLog', adminAuditLogSchema);
+

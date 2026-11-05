@@ -177,3 +177,4 @@ export const QuickActions = ({ availableVes, referralCode, onRefresh, onShowToas
     </section>
   );
 };
+

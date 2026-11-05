@@ -42,3 +42,4 @@ const levelConfigSchema = new mongoose.Schema(
 );
 
 export default mongoose.model('LevelConfig', levelConfigSchema);
+

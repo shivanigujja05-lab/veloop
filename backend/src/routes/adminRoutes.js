@@ -41,3 +41,4 @@ router.get('/referrals', getAdminReferrals);
 router.get('/audit-logs', getAdminAuditLogs);
 
 export default router;
+

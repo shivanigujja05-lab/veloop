@@ -28,3 +28,4 @@ router.get('/referrals', getMyReferrals);
 router.get('/activity', getMyActivity);
 
 export default router;
+

@@ -35,3 +35,4 @@ export const protectAdmin = async (req, res, next) => {
     return errorResponse(res, 401, 'Invalid administrative authorization token.');
   }
 };
+

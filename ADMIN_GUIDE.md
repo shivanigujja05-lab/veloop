@@ -49,3 +49,4 @@ The sidebar provides access to all administrative modules:
 
 ### 2.7 Audit Logs (`/admin/audit-logs`)
 - Chronological, tamper-evident log of every administrative action, showing timestamp, admin email, IP address, and change details.
+

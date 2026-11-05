@@ -55,3 +55,4 @@ As mandated in **Section 3 & Section 51** of the specification:
 | **Data Pollution** | `express-validator` validates and sanitizes all incoming bodies. |
 | **Information Leakage** | Centralized error handler captures errors and converts them to user-friendly messages without leaking database stack traces or SQL/Mongo query details. |
 | **Account Suspension** | Users marked `SUSPENDED` are rejected at the authentication middleware level with a 403 Forbidden code. |
+

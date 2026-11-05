@@ -11,3 +11,4 @@ router.post('/login', authLimiter, loginValidator, validateRequest, loginUser);
 router.post('/admin/login', authLimiter, loginValidator, validateRequest, loginAdmin);
 
 export default router;
+

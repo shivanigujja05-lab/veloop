@@ -16,3 +16,4 @@ export const errorResponse = (res, statusCode = 500, message = 'Server Error', e
   }
   return res.status(statusCode).json(payload);
 };
+

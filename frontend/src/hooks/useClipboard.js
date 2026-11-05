@@ -33,3 +33,4 @@ export const useClipboard = (timeout = 2500) => {
 
   return { copy, isCopied, copiedText };
 };
+

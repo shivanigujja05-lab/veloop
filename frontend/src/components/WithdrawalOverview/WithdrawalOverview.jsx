@@ -182,3 +182,4 @@ export const WithdrawalOverview = ({ withdrawalsData, availableVes, onRefresh, o
     </section>
   );
 };
+

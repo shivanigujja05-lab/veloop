@@ -28,3 +28,4 @@ export const logAdminAction = async ({
     console.error('Failed to create AdminAuditLog:', error.message);
   }
 };
+

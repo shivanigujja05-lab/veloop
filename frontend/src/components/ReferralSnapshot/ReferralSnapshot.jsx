@@ -156,3 +156,4 @@ export const ReferralSnapshot = ({ referralsData, onShowToast }) => {
     </section>
   );
 };
+
