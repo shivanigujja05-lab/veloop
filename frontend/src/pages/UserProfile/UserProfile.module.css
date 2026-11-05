@@ -1,0 +1,27 @@
+.pageContainer {
+  min-height: calc(100vh - 70px);
+  background-color: var(--veloop-bg);
+  padding: 2rem 1rem 4rem 1rem;
+}
+
+.contentWrapper {
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+.sectionAnchor {
+  scroll-margin-top: 80px;
+}
+
+.twoColumnGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 992px) {
+  .twoColumnGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

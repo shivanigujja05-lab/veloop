@@ -1,0 +1,120 @@
+.overviewCard {
+  background: var(--veloop-surface);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .metricsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.metricBox {
+  background: rgba(18, 21, 35, 0.7);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.metricLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--veloop-text-secondary);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.metricValue {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  font-family: var(--veloop-font-mono);
+}
+
+.totalWithdrawnBox {
+  grid-column: span 2;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(18, 21, 35, 0.9) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+  .totalWithdrawnBox {
+    grid-column: span 4;
+  }
+}
+
+.withdrawnAmount {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #34d399;
+  font-family: var(--veloop-font-mono);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--veloop-surface-border);
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 0;
+  color: #fff;
+  border-collapse: collapse;
+}
+
+.table th {
+  background: #141727;
+  color: var(--veloop-text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--veloop-surface-border);
+}
+
+.table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.85rem;
+  vertical-align: middle;
+}

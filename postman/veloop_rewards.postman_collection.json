@@ -1,0 +1,284 @@
+{
+  "info": {
+    "_postman_id": "c1f76d90-b6c8-47d3-982e-9d220fce8b81",
+    "name": "VELoop Rewards API - User & Admin Collection",
+    "description": "Comprehensive Postman collection for VELoop Rewards Profile & Admin Management System. Includes User authentication, Unified profile endpoints, Quick Actions, and Protected Admin APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "userToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "User Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Demo User\",\n  \"email\": \"demo@example.com\",\n  \"password\": \"DemoUser@2026\",\n  \"referredBy\": \"\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] }
+          }
+        },
+        {
+          "name": "User Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) {",
+                  "    pm.collectionVariables.set('userToken', res.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"demo@example.com\",\n  \"password\": \"DemoUser@2026\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Admin Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) {",
+                  "    pm.collectionVariables.set('adminToken', res.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"demo-admin@example.com\",\n  \"password\": \"DemoAdmin@2026\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/admin/login", "host": ["{{baseUrl}}"], "path": ["auth", "admin", "login"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. User Profile APIs",
+      "item": [
+        {
+          "name": "GET /api/profile/me (Unified Profile)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/profile/me", "host": ["{{baseUrl}}"], "path": ["profile", "me"] }
+          }
+        },
+        {
+          "name": "PATCH /api/profile/me (Update Display Name)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{userToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Demo User Updated\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/profile/me", "host": ["{{baseUrl}}"], "path": ["profile", "me"] }
+          }
+        },
+        {
+          "name": "GET /api/profile/rewards",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/profile/rewards", "host": ["{{baseUrl}}"], "path": ["profile", "rewards"] }
+          }
+        },
+        {
+          "name": "GET /api/profile/level-progress",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/profile/level-progress", "host": ["{{baseUrl}}"], "path": ["profile", "level-progress"] }
+          }
+        },
+        {
+          "name": "GET /api/profile/achievements",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/profile/achievements", "host": ["{{baseUrl}}"], "path": ["profile", "achievements"] }
+          }
+        },
+        {
+          "name": "GET /api/profile/withdrawal-summary",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/profile/withdrawal-summary", "host": ["{{baseUrl}}"], "path": ["profile", "withdrawal-summary"] }
+          }
+        },
+        {
+          "name": "GET /api/profile/referrals",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/profile/referrals", "host": ["{{baseUrl}}"], "path": ["profile", "referrals"] }
+          }
+        },
+        {
+          "name": "GET /api/profile/activity",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/profile/activity?limit=10", "host": ["{{baseUrl}}"], "path": ["profile", "activity"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. User Quick Actions",
+      "item": [
+        {
+          "name": "POST /api/actions/watch-ad",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/actions/watch-ad", "host": ["{{baseUrl}}"], "path": ["actions", "watch-ad"] }
+          }
+        },
+        {
+          "name": "POST /api/actions/daily-bonus",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/actions/daily-bonus", "host": ["{{baseUrl}}"], "path": ["actions", "daily-bonus"] }
+          }
+        },
+        {
+          "name": "POST /api/actions/convert-sve",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{userToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/actions/convert-sve", "host": ["{{baseUrl}}"], "path": ["actions", "convert-sve"] }
+          }
+        },
+        {
+          "name": "POST /api/actions/redeem-reward",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{userToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vesAmount\": 200,\n  \"payoutMethod\": \"UPI\",\n  \"payoutDetails\": {\n    \"upiId\": \"demouser@okhdfcbank\",\n    \"holderName\": \"Demo User\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/actions/redeem-reward", "host": ["{{baseUrl}}"], "path": ["actions", "redeem-reward"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Admin Management APIs",
+      "item": [
+        {
+          "name": "GET /api/admin/dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/dashboard", "host": ["{{baseUrl}}"], "path": ["admin", "dashboard"] }
+          }
+        },
+        {
+          "name": "GET /api/admin/users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/users?page=1&limit=10", "host": ["{{baseUrl}}"], "path": ["admin", "users"] }
+          }
+        },
+        {
+          "name": "GET /api/admin/withdrawals",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/withdrawals?status=PENDING", "host": ["{{baseUrl}}"], "path": ["admin", "withdrawals"] }
+          }
+        },
+        {
+          "name": "GET /api/admin/levels",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/levels", "host": ["{{baseUrl}}"], "path": ["admin", "levels"] }
+          }
+        },
+        {
+          "name": "GET /api/admin/achievements",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/achievements", "host": ["{{baseUrl}}"], "path": ["admin", "achievements"] }
+          }
+        },
+        {
+          "name": "GET /api/admin/referrals",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/referrals", "host": ["{{baseUrl}}"], "path": ["admin", "referrals"] }
+          }
+        },
+        {
+          "name": "GET /api/admin/audit-logs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/audit-logs", "host": ["{{baseUrl}}"], "path": ["admin", "audit-logs"] }
+          }
+        }
+      ]
+    }
+  ]
+}

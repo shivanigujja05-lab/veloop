@@ -1,0 +1,172 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+  --veloop-bg: #161827;
+  --veloop-surface: #1e2235;
+  --veloop-surface-light: #262c45;
+  --veloop-surface-border: #2e3553;
+  --veloop-text-primary: #f8fafc;
+  --veloop-text-secondary: #94a3b8;
+  --veloop-text-muted: #64748b;
+  --veloop-gold: #f59e0b;
+  --veloop-gold-light: #fbbf24;
+  --veloop-silver: #cbd5e1;
+  --veloop-silver-dark: #64748b;
+  --veloop-blue: #38bdf8;
+  --veloop-purple: #818cf8;
+  --veloop-green: #10b981;
+  --veloop-red: #ef4444;
+  --veloop-font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --veloop-font-mono: 'JetBrains Mono', monospace;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--veloop-bg);
+  color: var(--veloop-text-primary);
+  font-family: var(--veloop-font-sans);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #121420;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2e3553;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3e4870;
+}
+
+/* Base interactive elements */
+a {
+  color: var(--veloop-blue);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: #7dd3fc;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Custom Badges & Tags */
+.status-badge-active {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-badge-pending {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-badge-rejected {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Modal styling overrides */
+.modal-backdrop {
+  background-color: rgba(10, 12, 20, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.veloop-card {
+  background-color: var(--veloop-surface);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.veloop-card:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Pulsing shimmer for skeleton */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #1e2235 25%,
+    #2a314d 50%,
+    #1e2235 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+  border-radius: 6px;
+}

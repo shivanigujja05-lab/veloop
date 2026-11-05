@@ -1,0 +1,196 @@
+.heroCard {
+  background: linear-gradient(135deg, #1d2238 0%, #171b2d 100%);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.heroCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #38bdf8, #818cf8, #f59e0b);
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .heroContent {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.identityCol {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.avatarWrapper {
+  position: relative;
+}
+
+.avatarImg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--veloop-blue);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+}
+
+.avatarFallback {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+.levelBadgePill {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #f59e0b;
+  color: #0f172a;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 2px solid var(--veloop-bg);
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.displayName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.idCode {
+  font-family: var(--veloop-font-mono);
+  font-size: 0.85rem;
+  color: var(--veloop-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.levelTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--veloop-gold);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.progressCol {
+  flex: 1;
+  max-width: 420px;
+  background: rgba(15, 18, 30, 0.6);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.xpTotal {
+  font-weight: 700;
+  color: #fff;
+  font-family: var(--veloop-font-mono);
+}
+
+.xpRemaining {
+  color: var(--veloop-blue);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.progressBarContainer {
+  width: 100%;
+  height: 8px;
+  background-color: #232a42;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, #f59e0b);
+  border-radius: 9999px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progressFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--veloop-text-secondary);
+}
+
+.editButton {
+  background: transparent;
+  border: 1px solid var(--veloop-surface-border);
+  color: var(--veloop-text-secondary);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.editButton:hover {
+  background-color: var(--veloop-surface);
+  color: #fff;
+  border-color: var(--veloop-blue);
+}

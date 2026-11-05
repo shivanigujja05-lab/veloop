@@ -1,0 +1,153 @@
+.sectionWrapper {
+  margin-bottom: 2rem;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.assetsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 576px) {
+  .assetsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .assetsGrid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.assetCard {
+  background: var(--veloop-surface);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.assetCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.5);
+}
+
+/* Distinct Card Border Themes */
+.cardVes {
+  border-bottom: 3px solid #f59e0b;
+}
+
+.cardSves {
+  border-bottom: 3px solid #cbd5e1;
+  background: linear-gradient(180deg, #1e2235 0%, #20263c 100%);
+}
+
+.cardGems {
+  border-bottom: 3px solid #ec4899;
+}
+
+.cardTokens {
+  border-bottom: 3px solid #818cf8;
+}
+
+.cardXp {
+  border-bottom: 3px solid #38bdf8;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.iconContainer {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.infoTooltipBtn {
+  background: none;
+  border: none;
+  color: var(--veloop-text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: color 0.15s ease;
+}
+
+.infoTooltipBtn:hover {
+  color: #fff;
+}
+
+.assetValue {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #fff;
+  font-family: var(--veloop-font-mono);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.assetLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--veloop-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.actionLink {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.actionLink:hover {
+  opacity: 0.85;
+}

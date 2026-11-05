@@ -1,0 +1,98 @@
+.activityCard {
+  background: var(--veloop-surface);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.activityItem {
+  background: rgba(18, 21, 35, 0.7);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all 0.2s ease;
+}
+
+.activityItem:hover {
+  background: rgba(26, 31, 51, 0.85);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.leftCol {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.iconBox {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activityInfo h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 2px 0;
+}
+
+.activityInfo p {
+  font-size: 0.8rem;
+  color: var(--veloop-text-secondary);
+  margin: 0 0 4px 0;
+}
+
+.timeText {
+  font-size: 0.75rem;
+  color: var(--veloop-text-muted);
+}
+
+.rightCol {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.amountText {
+  font-size: 1.05rem;
+  font-weight: 800;
+  font-family: var(--veloop-font-mono);
+}

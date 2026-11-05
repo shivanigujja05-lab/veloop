@@ -1,0 +1,142 @@
+.sectionWrapper {
+  background: var(--veloop-surface);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.badgesGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .badgesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .badgesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.badgeCard {
+  background: rgba(18, 21, 35, 0.7);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.badgeCard:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+  transform: translateY(-2px);
+}
+
+.badgeUnlocked {
+  border-left: 3px solid #10b981;
+}
+
+.badgeLocked {
+  border-left: 3px solid #64748b;
+  opacity: 0.85;
+}
+
+.topRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.artworkBox {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.badgeMeta {
+  flex: 1;
+}
+
+.badgeName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 2px 0;
+}
+
+.badgeCategory {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--veloop-text-muted);
+}
+
+.badgeDesc {
+  font-size: 0.825rem;
+  color: var(--veloop-text-secondary);
+  line-height: 1.45;
+  margin-bottom: 0.85rem;
+}
+
+.progressContainer {
+  margin-top: auto;
+}
+
+.progressTrack {
+  height: 6px;
+  background-color: #161827;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, #10b981);
+  border-radius: 9999px;
+}
+
+.footerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--veloop-text-muted);
+}
+
+.rewardPill {
+  font-weight: 700;
+  color: var(--veloop-gold);
+  font-family: var(--veloop-font-mono);
+}

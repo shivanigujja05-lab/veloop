@@ -1,0 +1,149 @@
+.adminLayout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #0f121d;
+  color: #fff;
+}
+
+.sidebar {
+  width: 260px;
+  background-color: #141726;
+  border-right: 1px solid #23283e;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 1.25rem;
+  z-index: 100;
+}
+
+@media (max-width: 991px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+.sidebarBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #fff;
+  margin-bottom: 2rem;
+  text-decoration: none;
+}
+
+.navMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.navItem:hover {
+  color: #fff;
+  background-color: #1e2438;
+}
+
+.navItemActive {
+  color: #38bdf8;
+  background-color: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.sidebarFooter {
+  border-top: 1px solid #23283e;
+  padding-top: 1rem;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: #0f121d;
+}
+
+.topBar {
+  background-color: #141726;
+  border-bottom: 1px solid #23283e;
+  padding: 0.85rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contentBody {
+  padding: 1.75rem;
+  flex: 1;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.statCard {
+  background: #181d2e;
+  border: 1px solid #282f48;
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.statHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.statValue {
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-family: var(--veloop-font-mono);
+  color: #fff;
+  line-height: 1.2;
+}
+
+.statSubtitle {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+.tableCard {
+  background: #181d2e;
+  border: 1px solid #282f48;
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}

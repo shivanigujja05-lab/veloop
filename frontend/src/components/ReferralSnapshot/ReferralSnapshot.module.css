@@ -1,0 +1,121 @@
+.snapshotCard {
+  background: var(--veloop-surface);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.referralBanner {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(18, 21, 35, 0.8) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .referralBanner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.codeBox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #141727;
+  border: 1px solid #2e3754;
+  border-radius: var(--radius-md);
+  padding: 8px 16px;
+}
+
+.codeText {
+  font-family: var(--veloop-font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--veloop-gold);
+  letter-spacing: 0.05em;
+}
+
+.copyBtn {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.copyBtn:hover {
+  background: rgba(56, 189, 248, 0.25);
+  color: #fff;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.statItem {
+  background: rgba(18, 21, 35, 0.7);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.statLabel {
+  font-size: 0.775rem;
+  color: var(--veloop-text-secondary);
+  margin-bottom: 0.35rem;
+}
+
+.statVal {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #fff;
+  font-family: var(--veloop-font-mono);
+}
+
+.milestoneBox {
+  background: rgba(18, 21, 35, 0.7);
+  border: 1px solid var(--veloop-surface-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
