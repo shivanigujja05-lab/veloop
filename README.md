@@ -148,8 +148,9 @@ NODE_ENV=development
 
 **Frontend (`frontend/.env`):**
 ```env
-VITE_API_URL=http://localhost:5000/api
+VITE_API_URL=/api
 ```
+The Vite development server proxies `/api` requests to the backend on port `5000`, so this also works when opening the frontend from another device on your network. For a deployed frontend, set `VITE_API_URL` to the deployed backend API URL.
 
 ### 4. Seed Demo Data
 To seed initial demo accounts, level configurations, and withdrawal records:
@@ -158,7 +159,14 @@ npm run seed --prefix backend
 ```
 
 ### 5. Running the Application
-Open two terminal windows:
+From the project root on Windows, launch both servers in separate terminal windows:
+
+```bash
+npm run dev
+```
+Keep both the backend and frontend terminal windows running while using the app.
+
+Or start them manually in two terminal windows:
 
 **Terminal 1 (Backend API):**
 ```bash
@@ -212,4 +220,3 @@ npm run dev
 - [Administrator Operational Guide](ADMIN_GUIDE.md)
 - [Testing & Validation Guide](TESTING.md)
 - [Postman API Collection](postman/veloop_rewards.postman_collection.json)
-
