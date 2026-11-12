@@ -1,8 +1,11 @@
 import LevelConfig from '../models/LevelConfig.js';
+import { isMongoConnected, memoryStore } from '../config/memoryStore.js';
 
 export const calculateUserLevel = async (currentXp = 0) => {
   // Fetch active level configurations sorted by levelNumber ascending
-  const levels = await LevelConfig.find({ isActive: true }).sort({ levelNumber: 1 });
+  const levels = isMongoConnected
+    ? await LevelConfig.find({ isActive: true }).sort({ levelNumber: 1 })
+    : memoryStore.levels.filter((level) => level.isActive).sort((a, b) => a.levelNumber - b.levelNumber);
 
   if (!levels || levels.length === 0) {
     // Default fallback if database levels not yet seeded

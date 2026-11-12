@@ -12,11 +12,80 @@ import { calculateUserLevel } from '../services/levelService.js';
 import { adjustUserBalance } from '../services/rewardService.js';
 import { logAdminAction } from '../services/auditService.js';
 import { successResponse, errorResponse } from '../utils/responseHandler.js';
+import { isMongoConnected, memoryStore } from '../config/memoryStore.js';
 
 // @desc    Get Admin Dashboard metrics & statistics
 // @route   GET /api/admin/dashboard
 export const getAdminDashboardStats = async (req, res, next) => {
   try {
+    if (!isMongoConnected) {
+      const users = memoryStore.users;
+      const withdrawals = memoryStore.withdrawals;
+      const referrals = memoryStore.referrals;
+      const balances = memoryStore.wallets.reduce((totals, wallet) => ({
+        totalVes: totals.totalVes + (wallet.ves || 0),
+        totalSves: totals.totalSves + (wallet.sves || 0),
+        totalGems: totals.totalGems + (wallet.gems || 0),
+        totalTokens: totals.totalTokens + (wallet.tokens || 0),
+        totalXp: totals.totalXp + (wallet.xp || 0),
+        totalReservedVes: totals.totalReservedVes + (wallet.reservedVes || 0),
+      }), {
+        totalVes: 0,
+        totalSves: 0,
+        totalGems: 0,
+        totalTokens: 0,
+        totalXp: 0,
+        totalReservedVes: 0,
+      });
+      const pendingWithdrawals = withdrawals.filter((withdrawal) => withdrawal.status === 'PENDING').length;
+      const suspendedUsers = users.filter((user) => user.accountStatus === 'SUSPENDED').length;
+      const alerts = [];
+
+      if (pendingWithdrawals > 0) {
+        alerts.push({
+          type: 'warning',
+          message: `${pendingWithdrawals} withdrawal request(s) require administrative review.`,
+        });
+      }
+      if (suspendedUsers > 0) {
+        alerts.push({
+          type: 'info',
+          message: `${suspendedUsers} user account(s) are currently suspended.`,
+        });
+      }
+
+      return successResponse(res, 200, 'Admin dashboard statistics loaded', {
+        stats: {
+          users: {
+            total: users.length,
+            active: users.filter((user) => user.accountStatus === 'ACTIVE').length,
+            suspended: suspendedUsers,
+          },
+          balances,
+          withdrawals: {
+            total: withdrawals.length,
+            pending: pendingWithdrawals,
+            approved: withdrawals.filter((withdrawal) => withdrawal.status === 'APPROVED').length,
+            rejected: withdrawals.filter((withdrawal) => withdrawal.status === 'REJECTED').length,
+            totalAmountPaid: withdrawals
+              .filter((withdrawal) => withdrawal.status === 'APPROVED')
+              .reduce((total, withdrawal) => total + (withdrawal.amount || 0), 0),
+          },
+          referrals: {
+            total: referrals.length,
+            successful: referrals.filter((referral) => referral.status === 'SUCCESSFUL').length,
+          },
+          alerts,
+        },
+        recentActivities: [...memoryStore.activities]
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 6),
+        recentAuditLogs: [...memoryStore.adminAuditLogs]
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 6),
+      });
+    }
+
     const totalUsers = await User.countDocuments();
     const activeUsers = await User.countDocuments({ accountStatus: 'ACTIVE' });
     const suspendedUsers = await User.countDocuments({ accountStatus: 'SUSPENDED' });

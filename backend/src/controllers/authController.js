@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import Wallet from '../models/Wallet.js';
@@ -7,9 +8,11 @@ import { generateUserId, generateReferralCode, generateReferralId } from '../uti
 import { adjustUserBalance } from '../services/rewardService.js';
 import { logAdminAction } from '../services/auditService.js';
 import { successResponse, errorResponse } from '../utils/responseHandler.js';
+import { isMongoConnected, memoryStore } from '../config/memoryStore.js';
+import { getJwtSecret } from '../utils/jwtSecret.js';
 
 const generateToken = (id, role = 'user') => {
-  return jwt.sign({ id, role }, process.env.JWT_SECRET || 'veloop_super_secret_jwt_key_2026', {
+  return jwt.sign({ id, role }, getJwtSecret(), {
     expiresIn: '7d',
   });
 };
@@ -120,12 +123,16 @@ export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).select('+password');
+    const user = isMongoConnected
+      ? await User.findOne({ email }).select('+password')
+      : memoryStore.users.find((storedUser) => storedUser.email === email.toLowerCase());
     if (!user) {
       return errorResponse(res, 401, 'Invalid email or password');
     }
 
-    const isMatch = await user.matchPassword(password);
+    const isMatch = isMongoConnected
+      ? await user.matchPassword(password)
+      : await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return errorResponse(res, 401, 'Invalid email or password');
     }
@@ -139,7 +146,9 @@ export const loginUser = async (req, res, next) => {
     }
 
     user.lastLoginAt = new Date();
-    await user.save();
+    if (isMongoConnected) {
+      await user.save();
+    }
 
     const token = generateToken(user._id, 'user');
 
@@ -166,7 +175,9 @@ export const loginAdmin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const admin = await AdminUser.findOne({ email: email.toLowerCase() }).select('+password');
+    const admin = isMongoConnected
+      ? await AdminUser.findOne({ email: email.toLowerCase() }).select('+password')
+      : memoryStore.adminUsers.find((storedAdmin) => storedAdmin.email === email.toLowerCase());
     if (!admin) {
       return errorResponse(res, 401, 'Invalid administrator credentials');
     }
@@ -176,13 +187,17 @@ export const loginAdmin = async (req, res, next) => {
       return errorResponse(res, 429, 'Account locked temporarily due to too many failed attempts. Try again later.');
     }
 
-    const isMatch = await admin.matchPassword(password);
+    const isMatch = isMongoConnected
+      ? await admin.matchPassword(password)
+      : await bcrypt.compare(password, admin.password);
     if (!isMatch) {
       admin.failedLoginAttempts = (admin.failedLoginAttempts || 0) + 1;
       if (admin.failedLoginAttempts >= 5) {
         admin.lockUntil = new Date(Date.now() + 15 * 60 * 1000); // 15 mins lock
       }
-      await admin.save();
+      if (isMongoConnected) {
+        await admin.save();
+      }
       return errorResponse(res, 401, 'Invalid administrator credentials');
     }
 
@@ -190,7 +205,9 @@ export const loginAdmin = async (req, res, next) => {
     admin.failedLoginAttempts = 0;
     admin.lockUntil = null;
     admin.lastLoginAt = new Date();
-    await admin.save();
+    if (isMongoConnected) {
+      await admin.save();
+    }
 
     const token = generateToken(admin._id, admin.role);
 
@@ -218,4 +235,3 @@ export const loginAdmin = async (req, res, next) => {
     next(error);
   }
 };
-

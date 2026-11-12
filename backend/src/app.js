@@ -15,17 +15,24 @@ const app = express();
 app.use(helmet());
 
 // CORS configuration
-const allowedOrigins = [
-  process.env.CLIENT_ORIGIN || 'http://localhost:5173',
-  'http://localhost:3000',
-  'http://127.0.0.1:5173',
-];
+const allowedOrigins = new Set(
+  [
+    process.env.CLIENT_ORIGIN,
+    process.env.URL,
+    process.env.DEPLOY_PRIME_URL,
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:5173',
+  ]
+    .filter(Boolean)
+    .map((origin) => new URL(origin).origin)
+);
 
 app.use(
   cors({
     origin: (origin, callback) => {
       // allow requests with no origin (like mobile apps, curl, or Postman)
-      if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+      if (!origin || allowedOrigins.has(origin)) {
         return callback(null, true);
       }
       return callback(new Error('Blocked by CORS policy'));
@@ -75,4 +82,3 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 export default app;
-

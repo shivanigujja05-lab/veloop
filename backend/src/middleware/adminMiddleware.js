@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import AdminUser from '../models/AdminUser.js';
 import { errorResponse } from '../utils/responseHandler.js';
+import { isMongoConnected, memoryStore } from '../config/memoryStore.js';
+import { getJwtSecret } from '../utils/jwtSecret.js';
 
 export const protectAdmin = async (req, res, next) => {
   let token;
@@ -14,14 +16,16 @@ export const protectAdmin = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'veloop_super_secret_jwt_key_2026');
+    const decoded = jwt.verify(token, getJwtSecret());
     
     // Check if token payload has adminId or role
     if (!decoded.role || !['SUPER_ADMIN', 'ADMIN_MODERATOR'].includes(decoded.role)) {
       return errorResponse(res, 403, 'Unauthorized. Requires administrative privileges.');
     }
 
-    const admin = await AdminUser.findById(decoded.id);
+    const admin = isMongoConnected
+      ? await AdminUser.findById(decoded.id)
+      : memoryStore.adminUsers.find((storedAdmin) => storedAdmin._id === decoded.id || storedAdmin.id === decoded.id);
     if (!admin || !admin.isActive) {
       return errorResponse(res, 403, 'Admin account inactive or not found.');
     }
@@ -35,4 +39,3 @@ export const protectAdmin = async (req, res, next) => {
     return errorResponse(res, 401, 'Invalid administrative authorization token.');
   }
 };
-

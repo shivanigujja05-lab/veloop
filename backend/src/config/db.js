@@ -1,33 +1,37 @@
 import mongoose from 'mongoose';
+import { setMongoConnected, initializeMemoryStore } from './memoryStore.js';
 
 export const connectDB = async () => {
-  const mongoUri =
-    process.env.MONGO_URI ||
-    'mongodb://127.0.0.1:27017/veloop_rewards';
+  const mongoUri = process.env.MONGO_URI;
 
-  try {
-    console.log(`Connecting to MongoDB at: ${mongoUri.includes('@') ? mongoUri.replace(/:([^:@]+)@/, ':****@') : mongoUri}`);
-    
-    const conn = await mongoose.connect(mongoUri, {
-      serverSelectionTimeoutMS: 5000,
-    });
-    
-    console.log(`✅ MongoDB Connected successfully: ${conn.connection.host}`);
-    return conn;
-  } catch (error) {
-    console.error(`\n❌ MongoDB Connection Error: ${error.message}`);
-    console.log(`\n========================================================================`);
-    console.log(`📌 HOW TO CONFIGURE MONGODB:`);
-    console.log(`1. Open "backend/.env"`);
-    console.log(`2. Set your free MongoDB Atlas URI or local MongoDB connection string:`);
-    console.log(`   MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/veloop_rewards?retryWrites=true&w=majority`);
-    console.log(`   (Or if running local MongoDB: MONGO_URI=mongodb://127.0.0.1:27017/veloop_rewards)`);
-    console.log(`3. Restart the backend: npm run dev`);
-    console.log(`========================================================================\n`);
-    throw error;
+  if (mongoUri && mongoUri.trim().length > 0) {
+    try {
+      console.log(`Connecting to MongoDB URI...`);
+      const conn = await mongoose.connect(mongoUri, {
+        serverSelectionTimeoutMS: 5000,
+      });
+      console.log(`✅ MongoDB Atlas Connected: ${conn.connection.host}`);
+      setMongoConnected(true);
+      return conn;
+    } catch (error) {
+      console.warn(`⚠️ MongoDB connection failed: ${error.message}`);
+      console.log(`🔄 Switching to instant In-Memory Datastore fallback...`);
+      setMongoConnected(false);
+      await initializeMemoryStore();
+      return null;
+    }
   }
+
+  // If no MONGO_URI is set in .env
+  console.log(`ℹ️ No MONGO_URI configured in backend/.env`);
+  console.log(`⚡ Activating zero-config In-Memory Datastore so the app runs out of the box!`);
+  setMongoConnected(false);
+  await initializeMemoryStore();
+  return null;
 };
 
 export const disconnectDB = async () => {
-  await mongoose.disconnect();
+  try {
+    await mongoose.disconnect();
+  } catch {}
 };

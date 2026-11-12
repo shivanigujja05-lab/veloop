@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { isMongoConnected, memoryStore } from '../config/memoryStore.js';
 import { errorResponse } from '../utils/responseHandler.js';
+import { getJwtSecret } from '../utils/jwtSecret.js';
 
 export const protect = async (req, res, next) => {
   let token;
@@ -14,8 +16,14 @@ export const protect = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'veloop_super_secret_jwt_key_2026');
-    const user = await User.findById(decoded.id);
+    const decoded = jwt.verify(token, getJwtSecret());
+
+    let user;
+    if (isMongoConnected) {
+      user = await User.findById(decoded.id);
+    } else {
+      user = memoryStore.users.find((u) => u._id === decoded.id || u.id === decoded.id);
+    }
 
     if (!user) {
       return errorResponse(res, 401, 'User account no longer exists. Access denied.');
@@ -34,4 +42,3 @@ export const protect = async (req, res, next) => {
     return errorResponse(res, 401, 'Invalid authentication token.');
   }
 };
-

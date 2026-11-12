@@ -7,12 +7,42 @@ import Achievement from '../models/Achievement.js';
 import UserAchievement from '../models/UserAchievement.js';
 import { calculateUserLevel } from '../services/levelService.js';
 import { successResponse, errorResponse } from '../utils/responseHandler.js';
+import { isMongoConnected, memoryStore } from '../config/memoryStore.js';
 
 // @desc    Get complete unified user profile
 // @route   GET /api/profile/me
 export const getMyProfile = async (req, res, next) => {
   try {
     const user = req.user;
+
+    if (!isMongoConnected) {
+      const wallet = memoryStore.wallets.find((entry) => entry.user === user._id);
+      const levelProgress = await calculateUserLevel(wallet?.xp || 0);
+
+      return res.status(200).json({
+        success: true,
+        profile: {
+          userId: user.userId,
+          displayName: user.name,
+          email: user.email,
+          referralCode: user.referralCode,
+          accountStatus: user.accountStatus,
+          memberSince: user.memberSince,
+          isEmailVerified: user.isEmailVerified,
+          profileImage: user.profileImage || '',
+          role: user.role,
+        },
+        rewards: {
+          ves: wallet?.ves || 0,
+          sves: wallet?.sves || 0,
+          gems: wallet?.gems || 0,
+          tokens: wallet?.tokens || 0,
+          xp: wallet?.xp || 0,
+          reservedVes: wallet?.reservedVes || 0,
+        },
+        levelProgress,
+      });
+    }
 
     // Load or create wallet
     let wallet = await Wallet.findOne({ user: user._id });
@@ -73,7 +103,9 @@ export const updateMyProfile = async (req, res, next) => {
       user.profileImage = profileImage;
     }
 
-    await user.save();
+    if (isMongoConnected) {
+      await user.save();
+    }
 
     return successResponse(res, 200, 'Profile updated successfully', {
       profile: {
@@ -94,6 +126,20 @@ export const updateMyProfile = async (req, res, next) => {
 // @route   GET /api/profile/rewards
 export const getMyRewards = async (req, res, next) => {
   try {
+    if (!isMongoConnected) {
+      const wallet = memoryStore.wallets.find((entry) => entry.user === req.user._id);
+      return successResponse(res, 200, 'Rewards balances retrieved', {
+        rewards: {
+          ves: wallet?.ves || 0,
+          sves: wallet?.sves || 0,
+          gems: wallet?.gems || 0,
+          tokens: wallet?.tokens || 0,
+          xp: wallet?.xp || 0,
+          reservedVes: wallet?.reservedVes || 0,
+        },
+      });
+    }
+
     const wallet = await Wallet.findOne({ user: req.user._id });
     return successResponse(res, 200, 'Rewards balances retrieved', {
       rewards: {
@@ -114,6 +160,12 @@ export const getMyRewards = async (req, res, next) => {
 // @route   GET /api/profile/level-progress
 export const getMyLevelProgress = async (req, res, next) => {
   try {
+    if (!isMongoConnected) {
+      const wallet = memoryStore.wallets.find((entry) => entry.user === req.user._id);
+      const levelProgress = await calculateUserLevel(wallet?.xp || 0);
+      return successResponse(res, 200, 'Level progress retrieved', { levelProgress });
+    }
+
     const wallet = await Wallet.findOne({ user: req.user._id });
     const levelProgress = await calculateUserLevel(wallet ? wallet.xp : 0);
     return successResponse(res, 200, 'Level progress retrieved', { levelProgress });
@@ -126,6 +178,39 @@ export const getMyLevelProgress = async (req, res, next) => {
 // @route   GET /api/profile/achievements
 export const getMyAchievements = async (req, res, next) => {
   try {
+    if (!isMongoConnected) {
+      const allAchievements = memoryStore.achievements.filter((achievement) => achievement.isActive);
+      const userAchievements = memoryStore.userAchievements.filter((entry) => entry.user === req.user._id);
+      const userAchMap = new Map(userAchievements.map((entry) => [entry.achievementId, entry]));
+      const achievements = allAchievements.map((achievement) => {
+        const userRecord = userAchMap.get(achievement.achievementId);
+        return {
+          id: achievement._id,
+          achievementId: achievement.achievementId,
+          name: achievement.name,
+          description: achievement.description,
+          category: achievement.category,
+          badgeArtwork: achievement.badgeArtwork,
+          badgeColor: achievement.badgeColor,
+          xpReward: achievement.xpReward,
+          vesReward: achievement.vesReward,
+          targetProgress: achievement.requiredValue,
+          currentProgress: userRecord?.currentProgress || 0,
+          isUnlocked: userRecord?.isUnlocked || false,
+          unlockedAt: userRecord?.unlockedAt || null,
+        };
+      });
+      const unlockedCount = achievements.filter((achievement) => achievement.isUnlocked).length;
+
+      return successResponse(res, 200, 'Achievements retrieved', {
+        totalAchievements: achievements.length,
+        unlockedCount,
+        currentAchievement: achievements.find((achievement) => achievement.isUnlocked) || null,
+        nextAchievement: achievements.find((achievement) => !achievement.isUnlocked) || null,
+        achievements,
+      });
+    }
+
     const allAchievements = await Achievement.find({ isActive: true }).sort({ displayOrder: 1 });
     const userAchievements = await UserAchievement.find({ user: req.user._id });
 
@@ -171,7 +256,11 @@ export const getMyAchievements = async (req, res, next) => {
 // @route   GET /api/profile/withdrawal-summary
 export const getMyWithdrawalSummary = async (req, res, next) => {
   try {
-    const withdrawals = await Withdrawal.find({ user: req.user._id }).sort({ createdAt: -1 });
+    const withdrawals = isMongoConnected
+      ? await Withdrawal.find({ user: req.user._id }).sort({ createdAt: -1 })
+      : memoryStore.withdrawals
+          .filter((withdrawal) => withdrawal.user === req.user._id)
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     const totalRequests = withdrawals.length;
     const pendingRequests = withdrawals.filter((w) => w.status === 'PENDING').length;
@@ -204,7 +293,11 @@ export const getMyWithdrawalSummary = async (req, res, next) => {
 export const getMyReferrals = async (req, res, next) => {
   try {
     const user = req.user;
-    const referrals = await Referral.find({ referrer: user._id }).sort({ createdAt: -1 });
+    const referrals = isMongoConnected
+      ? await Referral.find({ referrer: user._id }).sort({ createdAt: -1 })
+      : memoryStore.referrals
+          .filter((referral) => referral.referrer === user._id)
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     const totalReferrals = referrals.length;
     const successfulReferrals = referrals.filter((r) => r.status === 'SUCCESSFUL').length;
@@ -246,9 +339,12 @@ export const getMyReferrals = async (req, res, next) => {
 export const getMyActivity = async (req, res, next) => {
   try {
     const limit = parseInt(req.query.limit, 10) || 10;
-    const activities = await ActivityLog.find({ user: req.user._id })
-      .sort({ createdAt: -1 })
-      .limit(limit);
+    const activities = isMongoConnected
+      ? await ActivityLog.find({ user: req.user._id }).sort({ createdAt: -1 }).limit(limit)
+      : memoryStore.activities
+          .filter((activity) => activity.user === req.user._id)
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, limit);
 
     return successResponse(res, 200, 'Recent activity retrieved', {
       activities,

@@ -3,6 +3,7 @@ dotenv.config();
 
 import app from './app.js';
 import { connectDB } from './config/db.js';
+import { isMongoConnected } from './config/memoryStore.js';
 import User from './models/User.js';
 import { seedDatabase } from './seed/seedData.js';
 
@@ -12,28 +13,29 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    // Check if demo data needs to be seeded automatically
-    const userCount = await User.countDocuments();
-    if (userCount === 0) {
-      console.log('Database empty. Automatically seeding demo data...');
-      await seedDatabase();
-    } else {
-      console.log(`Database already initialized with ${userCount} users.`);
+    // If connected to real MongoDB, seed if empty
+    if (isMongoConnected) {
+      const userCount = await User.countDocuments();
+      if (userCount === 0) {
+        console.log('MongoDB is empty. Seeding initial records...');
+        await seedDatabase();
+      } else {
+        console.log(`MongoDB active with ${userCount} existing users.`);
+      }
     }
 
     const server = app.listen(PORT, () => {
       console.log(`===============================================`);
-      console.log(`🚀 VELoop Rewards Backend API is running!`);
+      console.log(`🚀 VELoop Rewards Backend API is RUNNING!`);
       console.log(`📍 Port: ${PORT}`);
-      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
+      console.log(`🔗 Health: http://localhost:${PORT}/api/health`);
+      console.log(`⚡ Mode: ${isMongoConnected ? 'MongoDB Connected' : 'Zero-Config In-Memory Storage'}`);
       console.log(`===============================================`);
     });
 
     const shutdown = () => {
       console.log('Shutting down VELoop Rewards API server gracefully...');
       server.close(() => {
-        console.log('Process terminated.');
         process.exit(0);
       });
     };
@@ -41,10 +43,8 @@ const startServer = async () => {
     process.on('SIGTERM', shutdown);
     process.on('SIGINT', shutdown);
   } catch (error) {
-    console.error('Failed to start VELoop Rewards API server:', error);
-    process.exit(1);
+    console.error('Failed to start server:', error);
   }
 };
 
 startServer();
-
